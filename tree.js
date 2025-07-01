@@ -232,13 +232,26 @@ export class BinaryTree {
     }
 
     isBalanced() {
-        return this.postOrder((node) => {
+        let balanced = true;
+        this.postOrder((node) => {
+            if (!balanced) return;
+
             let leftHeight = this._leftSubTreeHeight(node);
             let rightHeight = this._rightSubTreeHeight(node);
             
             if (Math.abs(leftHeight - rightHeight) > 1) {
-                return false;
+                balanced = false;
             }
-        }) ? true : false
+        })
+        return balanced
+    }
+
+    rebalance() {
+        let values = [];
+        this.postOrder((node) => {
+            values.push(node.value);
+        })
+        this.arr = this.getSortedArray(values);
+        this.root = this.buildTree(this.arr);
     }
 }
